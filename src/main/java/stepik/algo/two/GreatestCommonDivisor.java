@@ -1,4 +1,4 @@
-package two;
+package stepik.algo.two;
 
 import java.util.Scanner;
 
