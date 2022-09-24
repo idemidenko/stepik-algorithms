@@ -1,10 +1,15 @@
 package stepik.algo;
 
+import java.util.Arrays;
+
 public class ArraysAndStrings {
 
   public static void main(String[] args) {
     String str = "string11";
     System.out.println(str + " is unique: " + isUniqueChars(str));
+
+    String s2 = "1string1";
+    System.out.println(str + " is permutation of " + s2 + ": " + isPermutation(str, s2));
   }
 
   // nlogn
@@ -22,5 +27,17 @@ public class ArraysAndStrings {
       }
     }
     return true;
+  }
+
+  private static boolean isPermutation(String s1, String s2) {
+    if (s1 == null || s2 == null) {
+      throw new IllegalArgumentException("Params should not be null. s1 = " + s1 + ", s2 = " + s2);
+    }
+
+    char[] s1Array = s1.toCharArray();
+    Arrays.sort(s1Array);
+    char[] s2Array = s2.toCharArray();
+    Arrays.sort(s2Array);
+    return Arrays.equals(s1Array, s2Array);
   }
 }
