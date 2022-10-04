@@ -1,6 +1,8 @@
 package crackingcodeinterview.one.one;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ArraysAndStrings {
 
@@ -14,6 +16,12 @@ public class ArraysAndStrings {
     String urlifyInput = " a  b      ";
     System.out.println(
         "urlify: input - [" + urlifyInput + "], result - [" + urlify(urlifyInput) + "]");
+
+    String palindrome = "aba";
+    System.out.println("String: [" + palindrome + "] isPalindromePermutation: [" + isPalindromePermutation(palindrome) + "]");
+    String palindromePermutation = "Tact Coa";
+    System.out.println("String: [" + palindromePermutation + "] isPalindromePermutation: [" + isPalindromePermutation(palindromePermutation) + "]");
+
   }
 
   // nlogn
@@ -86,4 +94,57 @@ public class ArraysAndStrings {
     }
     return new String(chars);
   }
+
+  /**
+   Palindrome Permutation: Given a string, write a function to check if it is a permutation of a
+   palindrome. A palindrome is a word or phrase that is the same forwards and backwards.
+   A permutation is a rearrangement of letters.
+   The palindrome does not need to be limited to just dictionary words.
+   EXAMPLE
+   Input: Tact Coa
+   Output: True (permutations: "taco cat", "atco cta", etc.)
+
+   Input: T   actC oa
+   Output: True (permutations: "t   acoc at", "a   tcoc ta", etc.)
+   */
+  private static boolean isPalindromePermutation(String s) {
+    if (s == null || s.length() < 3) {
+      return false;
+    }
+
+    s = s.replaceAll("\\s", "").toLowerCase();
+
+    if(isPalindrome(s)) {
+      return false;
+    }
+    char[] chars = s.toCharArray();
+    Map<Character, Integer> charCountMap = new HashMap<>();
+    for (char c : chars) {
+      int count = charCountMap.getOrDefault(c, 0);
+      charCountMap.put(c, ++count);
+    }
+
+    boolean oddCountFound = false;
+    for (int i : charCountMap.values()) {
+      if (i % 2 != 0) {
+        if (oddCountFound) {
+          return false;
+        } else {
+          oddCountFound = true;
+        }
+      }
+    }
+    return true;
+  }
+
+  private static boolean isPalindrome(String s) {
+    char[] chars = s.toCharArray();
+    for(int i = 0, j = chars.length - 1; i < j; i++) {
+      if (chars[i] != chars[j--]) {
+        return false;
+      }
+    }
+    return true;
+  }
+
 }
