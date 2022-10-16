@@ -38,6 +38,10 @@ public class ArraysAndStrings {
     printIsOneEditAway("pale", "bake");
     printIsOneEditAway("sale", "sale");
     printIsOneEditAway("", "");
+
+    printCompress("aabcccccaaa");
+    printCompress("");
+    printCompress("aabcca");
   }
 
   // nlogn
@@ -215,5 +219,41 @@ public class ArraysAndStrings {
   private static void printIsOneEditAway(String s1, String s2) {
     System.out.printf(
         "isOneEditAway: s1 = [%s], s2 = [%s], result = [%s]%n", s1, s1, isOneEditAway(s1, s2));
+  }
+
+  /*
+  String Compression: Implement a method to perform basic string compression using the counts of
+  repeated characters. For example, the string aabcccccaaa would become a2blc5a3.
+  If the "compressed" string would not become smaller than the original string, your method should
+  return the original string. You can assume the string has only uppercase and lowercase
+  letters (a - z).
+   */
+  public static String compress(String s) {
+    if (s == null || s.length() < 3) {
+      return s;
+    }
+
+    char[] chars = s.toCharArray();
+    int repeatedCharsCounter = 1;
+    StringBuilder sb = new StringBuilder();
+
+    for (int i = 0, j = 1; j < chars.length; i++, j++) {
+      char current = chars[i];
+      char next = chars[j];
+
+      if (current == next) {
+        repeatedCharsCounter++;
+      } else {
+        sb.append(current).append(repeatedCharsCounter);
+        repeatedCharsCounter = 1;
+      }
+    }
+
+    sb.append(chars[chars.length - 1]).append(repeatedCharsCounter);
+    return sb.length() < s.length() ? sb.toString() : s;
+  }
+
+  public static void printCompress(String s) {
+    System.out.printf("compress: s=[%s], result=[%s]%n", s, compress(s));
   }
 }
