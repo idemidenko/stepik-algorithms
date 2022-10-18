@@ -42,6 +42,20 @@ public class ArraysAndStrings {
     printCompress("aabcccccaaa");
     printCompress("");
     printCompress("aabcca");
+
+    printRotateMatrix(new int[][]{
+        { 0, 1, 2, 3, 4 },
+        { 5, 6, 7, 8, 9 },
+        { 10, 11, 12, 13, 14 },
+        { 15, 16, 17, 18, 19 },
+        { 20, 21, 22, 23, 24 }
+    });
+    printRotateMatrix(new int[][]{
+        { 0, 1, 2, 3 },
+        { 4, 5, 6, 7 },
+        { 8, 9, 0, 1 },
+        { 2, 3, 4, 5 }
+    });
   }
 
   // nlogn
@@ -255,5 +269,41 @@ public class ArraysAndStrings {
 
   public static void printCompress(String s) {
     System.out.printf("compress: s=[%s], result=[%s]%n", s, compress(s));
+  }
+
+  /*
+     Rotate Matrix: Given an image represented by an NxN matrix, where each pixel in the image is
+     4 bytes, write a method to rotate the image by 90 degrees. Can you do this in place?
+  */
+  public static int[][] rotateMatrix(int[][] matrix) {
+    if (matrix == null) {
+      return null;
+    }
+
+    int n = matrix.length;
+
+    for (int square = 0; square < n / 2; square++) { // 0
+      int j = square; // 0
+
+      for (int x = 0; x < n - 2*square - 1; x++, j++) { // 0
+        int i = square; // 0 | 0
+        int currentValue = matrix[i][j]; // 2 | 8
+        for (int y = 0; y < 4; y++) { // 0 | 1 | 2 | 3 | 0
+          int nextValue = matrix[j][n - i - 1]; // 0 | 3 | 5 | 2 | 1
+          matrix[j][n - i - 1] = currentValue; // 2 | 0 | 3 | 5 | 8
+          currentValue = nextValue; // 0 | 3 | 5 | 2 | 1
+          int tempi = i; // 0 | 0 | 3 | 3
+          i = j; // 0 | 3 | 3 | 0
+          j = n - tempi - 1; // 3 | 3 | 0 | 0
+        }
+      }
+    }
+    return matrix;
+  }
+
+  public static void printRotateMatrix(int[][] matrix) {
+    System.out.printf(
+        "rotateMatrix: matrix=[%s], result=[%s]%n",
+        Arrays.deepToString(matrix), Arrays.deepToString(rotateMatrix(matrix)));
   }
 }
