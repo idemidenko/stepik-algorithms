@@ -43,19 +43,31 @@ public class ArraysAndStrings {
     printCompress("");
     printCompress("aabcca");
 
-    printRotateMatrix(new int[][]{
-        { 0, 1, 2, 3, 4 },
-        { 5, 6, 7, 8, 9 },
-        { 10, 11, 12, 13, 14 },
-        { 15, 16, 17, 18, 19 },
-        { 20, 21, 22, 23, 24 }
-    });
-    printRotateMatrix(new int[][]{
-        { 0, 1, 2, 3 },
-        { 4, 5, 6, 7 },
-        { 8, 9, 0, 1 },
-        { 2, 3, 4, 5 }
-    });
+    printRotateMatrix(
+        new int[][] {
+          {0, 1, 2, 3, 4},
+          {5, 6, 7, 8, 9},
+          {10, 11, 12, 13, 14},
+          {15, 16, 17, 18, 19},
+          {20, 21, 22, 23, 24}
+        });
+    printRotateMatrix(
+        new int[][] {
+          {0, 1, 2, 3},
+          {4, 5, 6, 7},
+          {8, 9, 0, 1},
+          {2, 3, 4, 5}
+        });
+
+    printZeroMatrix(
+        new int[][] {
+          {1, 2, 3, 4, 5},
+          {6, 5, 3, 0, 5},
+          {1, 1, 2, 0, 2},
+          {1, 1, 2, 1, 2},
+          {0, 1, 2, 1, 0},
+          {3, 1, 2, 1, 2}
+        });
   }
 
   // nlogn
@@ -285,7 +297,7 @@ public class ArraysAndStrings {
     for (int square = 0; square < n / 2; square++) { // 0
       int j = square; // 0
 
-      for (int x = 0; x < n - 2*square - 1; x++, j++) { // 0
+      for (int x = 0; x < n - 2 * square - 1; x++, j++) { // 0
         int i = square; // 0 | 0
         int currentValue = matrix[i][j]; // 2 | 8
         for (int y = 0; y < 4; y++) { // 0 | 1 | 2 | 3 | 0
@@ -305,5 +317,66 @@ public class ArraysAndStrings {
     System.out.printf(
         "rotateMatrix: matrix=[%s], result=[%s]%n",
         Arrays.deepToString(matrix), Arrays.deepToString(rotateMatrix(matrix)));
+  }
+
+  /*
+    Zero Matrix: Write an algorithm such that if an element in an MxN matrix is 0,
+    its entire row and column are set to 0.
+  */
+  public static void zeroMatrix(int[][] matrix) {
+    if (matrix == null) {
+      return;
+    }
+
+    int[][] zeroElementsMatrix = new int[matrix.length][matrix[0].length];
+
+    for (int i = 0; i < matrix.length; i++) {
+      for (int j = 0; j < matrix[0].length; j++) {
+        if (matrix[i][j] == 0) {
+          zeroElementsMatrix[i][j] = 1;
+          /*
+          {0, 0, 0, 0, 0},
+          {0, 0, 0, 1, 0},
+          {0, 0, 0, 1, 0},
+          {0, 0, 0, 0, 0},
+          {1, 0, 0, 0, 1},
+          {0, 0, 0, 0, 0}
+          */
+        }
+      }
+    }
+
+    for (int i = 0; i < zeroElementsMatrix.length; i++) {
+      for (int j = 0; j < zeroElementsMatrix[0].length; j++) {
+        if (zeroElementsMatrix[i][j] == 1) {
+          for (int x = 0; x < matrix.length; x++) {
+            matrix[x][j] = 0;
+          }
+          for (int x = 0; x < matrix[0].length; x++) {
+            matrix[i][x] = 0;
+          }
+          /*
+          {0, 2, 3, 0, 0},
+          {0, 0, 0, 0, 0},
+          {0, 0, 0, 0, 0},
+          {0, 1, 2, 0, 0},
+          {0, 0, 0, 0, 0},
+          {0, 1, 2, 0, 0}
+          */
+        }
+      }
+    }
+  }
+
+  private static void printZeroMatrix(int[][] matrix) {
+    System.out.println("zeroMatrix: input:");
+    for (int[] row : matrix) {
+      System.out.println(Arrays.toString(row));
+    }
+    zeroMatrix(matrix);
+    System.out.println("zeroMatrix: result:");
+    for (int[] row : matrix) {
+      System.out.println(Arrays.toString(row));
+    }
   }
 }
