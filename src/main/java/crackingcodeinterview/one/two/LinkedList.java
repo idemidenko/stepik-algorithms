@@ -42,6 +42,39 @@ public class LinkedList {
     }
   }
 
+  public Node kThToLast(int k) {
+    Node pt1 = head;
+    Node pt2 = head;
+
+    for (int i = 0; i < k; i++) {
+      if (pt1 == null) {
+        return null;
+      }
+      pt1 = pt1.next;
+    }
+
+    while (pt1.next != null) {
+      pt1 = pt1.next;
+      pt2 = pt2.next;
+    }
+
+    return pt2;
+  }
+
+  static void printKThToLast() {
+    LinkedList list = new LinkedList();
+    list.appendToTail(1);
+    list.appendToTail(2);
+    list.appendToTail(1);
+    list.appendToTail(3);
+    list.appendToTail(2);
+    list.appendToTail(4);
+
+    int k = 3;
+    System.out.printf("kThToLast: input = [%s], k = [%d]%n", list, k);
+    System.out.printf("kThToLast: result = [%d]%n", list.kThToLast(k).data);
+  }
+
   @Override
   public String toString() {
     StringBuilder stringBuilder = new StringBuilder();
@@ -71,5 +104,7 @@ public class LinkedList {
     System.out.printf("removeDups: input = [%s]%n", removeDupsList);
     removeDupsList.removeDups();
     System.out.printf("removeDups: result = [%s]%n", removeDupsList);
+
+    printKThToLast();
   }
 }
