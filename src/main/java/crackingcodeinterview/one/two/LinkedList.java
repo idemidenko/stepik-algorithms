@@ -75,6 +75,31 @@ public class LinkedList {
     System.out.printf("kThToLast: result = [%d]%n", list.kThToLast(k).data);
   }
 
+  public void deleteMiddleNode(Node n) {
+    if (n == null || n.next == null) {
+      return;
+    }
+
+    Node next = n.next;
+    n.data = next.data;
+    n.next = next.next;
+  }
+
+  static void printDeleteMiddleNode() {
+    LinkedList list = new LinkedList();
+    list.appendToTail(1);
+    list.appendToTail(2);
+    list.appendToTail(1);
+    list.appendToTail(3);
+    list.appendToTail(2);
+    list.appendToTail(4);
+
+    Node node = list.head.next.next.next;
+    System.out.printf("deleteMiddleNode: input = [%s], node=[%d]%n", list, node.data);
+    list.deleteMiddleNode(node);
+    System.out.printf("deleteMiddleNode: result = [%s]%n", list);
+  }
+
   @Override
   public String toString() {
     StringBuilder stringBuilder = new StringBuilder();
@@ -106,5 +131,6 @@ public class LinkedList {
     System.out.printf("removeDups: result = [%s]%n", removeDupsList);
 
     printKThToLast();
+    printDeleteMiddleNode();
   }
 }
