@@ -100,6 +100,48 @@ public class LinkedList {
     System.out.printf("deleteMiddleNode: result = [%s]%n", list);
   }
 
+  /*
+  Partition: Write code to partition a linked list around a value x, such that all nodes less than x come before all nodes greater than or equal to x. If x is contained within the list, the values of x only need to be after the elements less than x (see below). The partition element x can appear anywhere in the "right partition"; it does not need to appear between the left and right partitions.
+  EXAMPLE
+  Input: 3 -> 5 -> 8 -> 5 -> 10 -> 2 -> 1[partition=5]
+  Output: 3 -> 1 -> 2 -> 10 -> 5 -> 5 -> 8
+  	*/
+  public void partition(int value) {
+    if (head == null || head.next == null) {
+      return;
+    }
+
+    Node previous = head;
+    Node current = head.next;
+    while (current != null) {
+      Node next = current.next;
+      if (current.data < value) {
+        current.next = head;
+        head = current;
+        previous.next = next;
+        current = next;
+      } else {
+        previous = current;
+        current = next;
+      }
+    }
+  }
+
+  static void printPartition() {
+    LinkedList list = new LinkedList();
+    list.appendToTail(1);
+    list.appendToTail(2);
+    list.appendToTail(7);
+    list.appendToTail(3);
+    list.appendToTail(2);
+    list.appendToTail(4);
+
+    int value = 3;
+    System.out.printf("partition: input = [%s], value=[%d]%n", list, value);
+    list.partition(value);
+    System.out.printf("partition: result = [%s]%n", list);
+  }
+
   @Override
   public String toString() {
     StringBuilder stringBuilder = new StringBuilder();
@@ -132,5 +174,6 @@ public class LinkedList {
 
     printKThToLast();
     printDeleteMiddleNode();
+    printPartition();
   }
 }
