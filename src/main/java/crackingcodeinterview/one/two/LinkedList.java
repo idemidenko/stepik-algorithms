@@ -142,6 +142,133 @@ public class LinkedList {
     System.out.printf("partition: result = [%s]%n", list);
   }
 
+  /*
+  Sum Lists: You have two numbers represented by a linked list, where each node contains a single digit.The digits are stored in reverse order, such that the 1 's digit is at the head of the list. Write a function that adds the two numbers and returns the sum as a linked list.
+  EXAMPLE
+  Input:(7-> 1 -> 6) + (5 -> 9 -> 2). That is,617 + 295.
+  Output:2 -> 1 -> 9. That is,912.
+  */
+  public LinkedList sumReverse(LinkedList anotherList) {
+    if (anotherList == null || anotherList.head == null) {
+      return null;
+    }
+
+    Node pt1 = head;
+    Node pt2 = anotherList.head;
+
+    int transfer = 0;
+    LinkedList sum = new LinkedList();
+    Node sumTail = null;
+    while ((pt1 != null && pt2 != null) || transfer == 1) {
+      int data1, data2;
+
+      data1 = pt1 != null ? pt1.data : 0;
+      data2 = pt2 != null ? pt2.data : 0;
+      int sumNumber = data1 + data2 + transfer;
+
+      if (sumNumber > 9) {
+        sumNumber = sumNumber % 10;
+        transfer = 1;
+      } else {
+        transfer = 0;
+      }
+
+      Node sumNode = new Node(sumNumber);
+      if (sumTail == null) {
+        sumTail = sumNode;
+        sum.head = sumNode;
+      } else {
+        sumTail.next = sumNode;
+        sumTail = sumNode;
+      }
+
+      if (pt1 != null) {
+        pt1 = pt1.next;
+      }
+      if (pt2 != null) {
+        pt2 = pt2.next;
+      }
+    }
+
+    return sum;
+  }
+
+  public static void printSumReverse() {
+    LinkedList list1 = new LinkedList();
+    list1.appendToTail(7);
+    list1.appendToTail(1);
+    list1.appendToTail(6);
+
+    LinkedList list2 = new LinkedList();
+    list2.appendToTail(9);
+    list2.appendToTail(8);
+    list2.appendToTail(7);
+    list2.appendToTail(3);
+
+    System.out.printf("sumReverse: list1 = [%s], list2=[%s]%n", list1, list2);
+    System.out.printf("sumReverse: result = [%s]%n", list1.sumReverse(list2));
+  }
+
+  public static LinkedList sumReverseRecursion(LinkedList l1, LinkedList l2) {
+    if (l1 == null || l1.head == null || l2 == null || l2.head == null) {
+      return null;
+    }
+
+    Node n1 = l1.head;
+    Node n2 = l2.head;
+    int transfer = 0;
+
+    Node n = sumReverseRecursion(n1, n2, transfer);
+    LinkedList sum = new LinkedList();
+    sum.head = n;
+
+    return sum;
+  }
+
+  private static Node sumReverseRecursion(Node n1, Node n2, int transfer) {
+    if (n1 == null && n2 == null && transfer == 0) {
+      return null;
+    }
+
+    int v1 = n1 == null ? 0 : n1.data;
+    int v2 = n2 == null ? 0 : n2.data;
+    int sumValue = v1 + v2 + transfer;
+
+    if (sumValue > 9) {
+      sumValue = sumValue % 10;
+      transfer = 1;
+    } else {
+      transfer = 0;
+    }
+
+    Node sum = new Node(sumValue);
+    if (n1 != null) {
+      n1 = n1.next;
+    }
+    if (n2 != null) {
+      n2 = n2.next;
+    }
+    sum.next = sumReverseRecursion(n1, n2, transfer);
+
+    return sum;
+  }
+
+  public static void printSumReverseRecursion() {
+    LinkedList list1 = new LinkedList();
+    list1.appendToTail(7);
+    list1.appendToTail(1);
+    list1.appendToTail(6);
+
+    LinkedList list2 = new LinkedList();
+    list2.appendToTail(9);
+    list2.appendToTail(8);
+    list2.appendToTail(7);
+    list2.appendToTail(3);
+
+    System.out.printf("sumReverseRecursion: list1 = [%s], list2=[%s]%n", list1, list2);
+    System.out.printf("sumReverseRecursion: result = [%s]%n", sumReverseRecursion(list1, list2));
+  }
+
   @Override
   public String toString() {
     StringBuilder stringBuilder = new StringBuilder();
@@ -175,5 +302,7 @@ public class LinkedList {
     printKThToLast();
     printDeleteMiddleNode();
     printPartition();
+    printSumReverse();
+    printSumReverseRecursion();
   }
 }
