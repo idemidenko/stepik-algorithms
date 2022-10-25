@@ -269,6 +269,65 @@ public class LinkedList {
     System.out.printf("sumReverseRecursion: result = [%s]%n", sumReverseRecursion(list1, list2));
   }
 
+  /*
+  Palindrome: Implement a function to check if a linked list is a palindrome.
+   */
+  public boolean isPalindrome() {
+    Node n = head;
+    if (n == null) {
+      return false;
+    }
+
+    return isPalindrome(n).equals;
+  }
+
+  private PalindromeComparisonResult isPalindrome(Node n) {
+    if (n.next == null) {
+      PalindromeComparisonResult comparisonResult = new PalindromeComparisonResult();
+      comparisonResult.left = head;
+      comparisonResult.right = n;
+      comparisonResult.equals = comparisonResult.left.data == comparisonResult.right.data;
+      return comparisonResult;
+    }
+
+    PalindromeComparisonResult comparisonResult = isPalindrome(n.next);
+    comparisonResult.left = comparisonResult.left.next;
+    comparisonResult.right = n;
+    if (comparisonResult.equals)  {
+      comparisonResult.equals = comparisonResult.left.data == comparisonResult.right.data;
+    }
+
+    return comparisonResult;
+  }
+
+  private static class PalindromeComparisonResult {
+    Node left;
+    Node right;
+    boolean equals;
+  }
+
+  public static void printIsPalindrome() {
+    LinkedList list1 = new LinkedList();
+    list1.appendToTail(1);
+    list1.appendToTail(2);
+    list1.appendToTail(1);
+    list1.appendToTail(3);
+    list1.appendToTail(2);
+    list1.appendToTail(1);
+
+    System.out.printf("isPalindrome: input = [%s], result=[%s]%n", list1, list1.isPalindrome());
+
+    LinkedList list2 = new LinkedList();
+    list2.appendToTail(1);
+    list2.appendToTail(2);
+    list2.appendToTail(3);
+    list2.appendToTail(3);
+    list2.appendToTail(2);
+    list2.appendToTail(1);
+
+    System.out.printf("isPalindrome: input = [%s], result=[%s]%n", list2, list2.isPalindrome());
+  }
+
   @Override
   public String toString() {
     StringBuilder stringBuilder = new StringBuilder();
@@ -304,5 +363,6 @@ public class LinkedList {
     printPartition();
     printSumReverse();
     printSumReverseRecursion();
+    printIsPalindrome();
   }
 }
