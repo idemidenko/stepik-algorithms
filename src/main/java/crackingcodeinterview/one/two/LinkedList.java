@@ -293,7 +293,7 @@ public class LinkedList {
     PalindromeComparisonResult comparisonResult = isPalindrome(n.next);
     comparisonResult.left = comparisonResult.left.next;
     comparisonResult.right = n;
-    if (comparisonResult.equals)  {
+    if (comparisonResult.equals) {
       comparisonResult.equals = comparisonResult.left.data == comparisonResult.right.data;
     }
 
@@ -326,6 +326,112 @@ public class LinkedList {
     list2.appendToTail(1);
 
     System.out.printf("isPalindrome: input = [%s], result=[%s]%n", list2, list2.isPalindrome());
+  }
+
+  /**
+   * Intersection: Given two (singly) linked lists, determine if the two lists intersect. Return the
+   * intersecting node. Note that the intersection is defined based on reference, not value.That is,
+   * if the kth node of the first linked list is the exact same node (by reference) as the jth node
+   * of the second linked list, then they are intersecting.
+   *
+   * <p>Example:
+   *
+   * <p>S:1 => A:1 => B:9 => C:3 => D:4
+   *
+   * <p>F:2 => C:3 => D:4
+   *
+   * <p>return: C:3 node
+   */
+  private static Node findIntersection(LinkedList l1, LinkedList l2) {
+    if (l1 == null || l2 == null || l1.head == null || l2.head == null) {
+      return null;
+    }
+
+    SizeAndTail sizeAndTail1 = findSizeAndTail(l1);
+    SizeAndTail sizeAndTail2 = findSizeAndTail(l2);
+
+    if (sizeAndTail1.tail != sizeAndTail2.tail) {
+      return null;
+    }
+
+    int size1 = sizeAndTail1.size;
+    int size2 = sizeAndTail2.size;
+
+    int diff = Math.abs(size1 - size2);
+    Node longer = size1 > size2 ? l1.head : l2.head;
+    Node shorter = size1 > size2 ? l2.head : l1.head;
+
+    longer = getKthNode(longer, diff);
+    if (longer == null) {
+      return null;
+    }
+
+    while (longer != shorter) {
+      longer = longer.next;
+      shorter = shorter.next;
+    }
+
+    return longer;
+  }
+
+  private static Node getKthNode(Node n, int k) {
+    for (int i = 0; i < k; i++) {
+      if (n == null) {
+        return null;
+      }
+
+      n = n.next;
+    }
+
+    return n;
+  }
+
+  private static SizeAndTail findSizeAndTail(LinkedList l) {
+    if (l == null) {
+      return null;
+    }
+    if (l.head == null) {
+      return new SizeAndTail(null, 0);
+    }
+
+    Node node = l.head;
+    int size = 1;
+    while (node.next != null) {
+      node = node.next;
+      size++;
+    }
+
+    return new SizeAndTail(node, size);
+  }
+
+  private static class SizeAndTail {
+    final Node tail;
+    final int size;
+
+    private SizeAndTail(Node tail, int size) {
+      this.tail = tail;
+      this.size = size;
+    }
+  }
+
+  static void printFindIntersection() {
+    LinkedList l1 = new LinkedList();
+    l1.appendToTail(1);
+    l1.appendToTail(2);
+    l1.appendToTail(3);
+    l1.appendToTail(4);
+    l1.appendToTail(5);
+    l1.appendToTail(6);
+    System.out.printf("l1 = [%s] ", l1);
+
+    LinkedList l2 = new LinkedList();
+    l2.appendToTail(11);
+    l2.appendToTail(12);
+    l2.head.next.next = l1.head.next.next.next;
+    System.out.printf("l2 = [%s] ", l2);
+
+    Node intersection = findIntersection(l1, l2);
+    System.out.printf("intersection = [%s] ", intersection.data);
   }
 
   @Override
@@ -364,5 +470,6 @@ public class LinkedList {
     printSumReverse();
     printSumReverseRecursion();
     printIsPalindrome();
+    printFindIntersection();
   }
 }
